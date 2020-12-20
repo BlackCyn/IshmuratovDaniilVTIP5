@@ -1,17 +1,21 @@
-def function1():
-    with open('plan.txt', 'r') as f:
-        full_txt = sorted(f.read().split())
-        print(full_txt)
-    with open('sort_plan.txt', 'w') as s:
-        print(full_txt, file=s)
-function1()
+import re
+import urllib.request
 
-def function2():
-    import re
-    import urllib.request
+#Отсортированное по алфавиту содержимое файла plan.txt поместите в файл sort_plan.txt
+def fun1():
+    with open('plan.txt', 'r') as file:
+        full_txt = sorted(file.read().split())
+        print(full_txt)
+    with open('sort_plan.txt', 'w') as sorted_file:
+        print(full_txt, file=sorted_file)
+fun1()
+
+#Найдите в файле (файл находится в сети интернет) строки, содержащие почтовые адреса.
+#Запишите найденные строки в файл с именем mail.txt
+def fun2():
 
     pat = re.compile(r'[\w.-]+@[\w.-]+(?=\.[\w]+)+')
-    emails = []
+    email = []
     url = "http://dfedorov.spb.ru/python/files/mbox-short.txt"
     with urllib.request.urlopen(url) as webpage:
         for line in webpage:
@@ -19,29 +23,28 @@ def function2():
             line = line.decode('utf-8')
             urls = pat.findall(line)
             if urls:
-                emails += urls
+                email += urls
 
-    with open("mail.txt", 'w') as text1:
-        print(emails, file=text1)
-function2()
+    with open("mail.txt", 'w') as textt:
+        print(email, file=textt)
+fun2()
 
-def function3():
-    import re
-    import urllib.request
+#Очистите файл от HTML-тегов. Выведите на экран чистый текст
+def fun3():
 
-    pat = re.compile('<.*?>')
+    pattern = re.compile('<.*?>')
     url = "http://dfedorov.spb.ru/python/files/p.html"
     with urllib.request.urlopen(url) as webpage:
         for line in webpage:
             line = line.strip()
             line = line.decode('utf-8')
-            urls = pat.sub('', line)
+            urls = pattern.sub('', line)
             print(urls)
-function3()
+fun3()
 
-def function4():
-    import urllib.request
-    slovar = {}
+#Определите частоту встречаемости всех слов для текста, находящегося в сети Интернет
+def fun4():
+    voc = {}
     count = 0
     url = "http://dfedorov.spb.ru/python3/src/romeo.txt"
     with urllib.request.urlopen(url) as webpage:
@@ -53,15 +56,17 @@ def function4():
                 for j in abc:
                     if i == j:
                         count = count + 1
-                        slovar[i] = (count)
+                        voc[i] = (count)
 
                 count = 0
 
-            print("подсчет повторений каждого слова в абзаце")
-            print(slovar)
-function4()
+            print("Счетчик повторений каждого слова в абзаце")
+            print(voc)
+fun4()
 
-def function5():
+#Напишите функцию stringCount, которая принимает два входных аргумента - имя файла и строку,
+#а возвращает число повторений указанной строки в указанном файле
+def fun5():
     name=input("Введите название текстового файла")
     word=input("Введите слово которое хотите найти")
     c=0
@@ -72,9 +77,11 @@ def function5():
             if i==word:
                 c+=1
         print("Данное слово встречается ",c ,"раз" )
-function5()
+fun5()
 
-def function6():
+#Реализуйте функцию myGrep, которая принимает два входных аргумента -имя файла и строку
+#А выводит на экран все строки указанного файла, содержащие заданную строку в качестве подстроки
+def fun6():
     name=input("Введите название файла")
     line=input("Введите подстроку, которую хотите найти")
     with open(name) as f:
@@ -83,13 +90,21 @@ def function6():
             if line in i:
                 print(i)
         print(line)
-function6()
+fun6()
 
-import re
-def function7():
-    url=input("Введите название  HTML файла")
+#Реализуйте функцию links, которая принимает на вход имя HTML-файла
+# и возвращает количество гиперссылок в этом файле(тег </a>)
+def fun7():
+    url=input("Введите название файла с разрешением HTML")
     with open(url) as f:
         for lines in f:
             res = re.findall('href="(\S*)"', lines)
             print(res)
-function7()
+fun7()
+
+
+
+
+
+
+
